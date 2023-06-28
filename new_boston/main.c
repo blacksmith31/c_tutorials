@@ -38,7 +38,7 @@ int main(){
     strcpy(name, "Jameson");
     printf("my name is %s\n", name);
 
-    printf("name from the header: %s, age from header: %d\n", MYNAME, AGE);
+    printf("Name from the header: %s, Age from header: %d\n", MYNAME, AGE);
 
     return 0;
 }

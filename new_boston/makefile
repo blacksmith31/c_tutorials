@@ -1,7 +1,11 @@
 # Reference: https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/
 
-CC=gcc
-CFLAGS=-I.
+CC = gcc
+CFLAGS = -I.
+CFLAGS += -Wall
+CFLAGS += -Werror
+CFLAGS += -Wpedantic
+
 DEPS = info.h # macro, set of .h files on which .c files depend
 
 # rule applying to all files with .o suffix
@@ -15,4 +19,6 @@ DEPS = info.h # macro, set of .h files on which .c files depend
 
 main: main.o
 	$(CC) -o main main.o 
+	@./main
+
 	
