@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "info.h" // double quotes to look in working dir rather than brackets for default header location
 
 int main(){
     printf("Hello World\n");
@@ -36,5 +37,8 @@ int main(){
     // new string must fit within original size
     strcpy(name, "Jameson");
     printf("my name is %s\n", name);
+
+    printf("name from the header: %s, age from header: %d\n", MYNAME, AGE);
+
     return 0;
 }
