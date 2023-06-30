@@ -21,4 +21,5 @@ main: main.o
 	$(CC) -o main main.o 
 	@./main
 
-	
+run:
+	@./main

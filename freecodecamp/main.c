@@ -51,6 +51,7 @@ void get_input(){
 }
 
 void calculator(){
+    // *** Note not secure
     double num1;
     double num2;
 
@@ -63,16 +64,113 @@ void calculator(){
     printf("answer: %f\n", num1 + num2);
 }
 
+void madlib(){
+    char color[20];
+    char plural_noun[20];
+    char celeb[20];
+
+    printf("Enter a color: ");
+    scanf("%s", color);
+
+
+    printf("Enter a plural noun: ");
+    scanf("%s", plural_noun);
+
+
+    printf("Enter a celebrity: ");
+    scanf("%s", celeb);
+
+    printf("Roses are %s\n", color);
+    printf("%s are blue\n", plural_noun);
+    printf("I love %s\n", celeb);
+
+}
+
+void arrays(){
+    int lucky_nums[] = {3, 5, 7, 14};
+    printf("first element of array: %d\n", lucky_nums[0]);
+
+    // int lucky_nums2[10];
+}
+
+// Return vals
+// funcs with return should be defined 'above' the caller if not prototyped
+double cube(double num){
+    return num * num * num;
+}
+
+// Conditionals && Comparators
+int max(int num1, int num2){
+    int result;
+    if(num1 > num2){
+        result = num1;
+    } 
+    else {
+        result = num2;
+    }
+    return result;
+}
+
+int max3(int num1, int num2, int num3){
+    if(num1 >= num2 && num1 >= num3){
+        return num1;
+    }
+    else if(num2 >= num1 && num2 >= num3){
+        return num2;
+    }
+    else{
+        return num3;
+    }
+        
+}
+
+double better_calc(){
+    double num1;
+    double num2;
+    char op;
+    
+    printf("Enter a number: \n");
+    scanf("%lf", &num1);
+    printf("Enter an operator: ");
+    // space before char format specifier in scanf
+    // this skips any whitespace in buffer memory when this is not the first input
+    scanf(" %c", &op);
+    printf("Enter a second operand: \n");
+    scanf("%lf", &num2);
+
+    if(op == '+'){
+        return num1 + num2;
+    }
+    else if(op == '-'){
+        return num1 - num2;
+    }
+    else if(op == '*'){
+        return num1 * num2;
+    }
+    else if(op == '/'){
+        return num1 / num2;
+    }
+    else{
+        printf("enter a valid operator");
+        return -1;
+    }
+}
+
 int main(){
     printtri();
 
-    story();
+    // story();
 
-    format_specs();
+    // format_specs();
 
     // get_input();
 
-    calculator();
+    // calculator();
 
+    // madlib();
+
+    printf("cube answer: %lf\n", cube(2.3));
+    printf("max num : %d\n", max(1.1, 45));
+    printf("max of 3: %d\n", max3(10, 2, 3));
     return 0;
 }
