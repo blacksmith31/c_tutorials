@@ -172,5 +172,6 @@ int main(){
     printf("cube answer: %lf\n", cube(2.3));
     printf("max num : %d\n", max(1.1, 45));
     printf("max of 3: %d\n", max3(10, 2, 3));
+    printf("%ld\n", __STDC_VERSION__);
     return 0;
 }
