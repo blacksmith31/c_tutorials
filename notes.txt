@@ -1,0 +1,2 @@
+GCC Compiler warnings:
+gcc -std=c99 -Wall -Werror -Wpedantic main.c
