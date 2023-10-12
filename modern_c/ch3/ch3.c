@@ -10,6 +10,7 @@ int main(void){
     // scanf("%f%d%f", &x, &i, &y);
     // printf("%f %d %f\n", x, i, y);
     datefmt();
+
     return 0;
 }
 
