@@ -25,6 +25,13 @@ void bad_arr_size(int a[], int n){
     printf("size of a: %ld\n", sizeof(a));
 }
 
+int fact(int n){
+    if (n <= 1)
+        return 1;
+    else
+        return n * fact(n - 1);
+}
+
 int main(void){
     int i;
     int a[] = {1, 2, 3};
@@ -40,5 +47,7 @@ int main(void){
     }
     printf("size of a: %ld\n", sizeof(a));
     bad_arr_size(a, 3);
+
+    printf("factorial 5: %d\n", fact(5));
     return 0;
 }
