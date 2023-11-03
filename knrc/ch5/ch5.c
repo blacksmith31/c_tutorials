@@ -7,8 +7,9 @@
 int getch(void);
 void ungetch(int);
 // goto pg 101(87) to add qsort version
-void swap(int *px, int *py);
+void swap(int v[], int i, int j);
 int getint(int *pn);
+void qsort(int v[], int left, int right);
 
 char buf[BUFSIZE];
 int bufp = 0;
@@ -18,9 +19,25 @@ int main(int argc, char *argv[]){
     int a, b, array[SIZE] = {0};
     a = 123;
     b = 456;
-    swap(&a, &b);
-    printf("a: %d, b: %d\n", a, b);
+    //swap(&a, &b);
+    //printf("a: %d, b: %d\n", a, b);
     
+    // qsort testing
+    int sl[SIZE] = {9, 3, 5, 2, 8};
+    printf("qsort before: \n");
+    for (int i = 0; i < SIZE; i++) {
+        printf("%d ", sl[i]);
+    }
+    printf("\n");
+
+    qsort(sl, 0, 3);
+
+    printf("qsort after: \n");
+    for (int i = 0; i < SIZE; i++) {
+        printf("%d ", sl[i]);
+    }
+    printf("\n");
+
     // this should make calls to stdio.getchar to read input from stdin
     // test with input such as 1 2 3 -4 +5 
     for (int n = 0; n < SIZE && getint(&array[n]) != EOF; n++)
@@ -43,12 +60,37 @@ void ungetch(int c){
         buf[bufp++] = c;
 }
 
-void swap(int *px, int *py){
+void swap(int v[], int i, int j){
     int temp;
 
-    temp = *px;
-    *px = *py;
-    *py = temp;
+    temp = v[i];
+    v[i] = v[j];
+    v[j] = temp;
+}
+
+void qsort(int v[], int left, int right){
+    /* given the array a partition element is chosen
+     * the remaining elements are separated into 2 subsets
+     * greater than and less than the partition
+     * this is done recursively
+     * left and right are index positions in the array to sort between
+     * */
+    int i, last;
+    
+    // do nothing if array contains fewer than 2 elements
+    if (left >= right){
+        return;
+    }
+    swap(v, left, (left + right)/2);
+    last = left;
+    for (i = left+1; i <= right; i++){
+        if (v[i] < v[left]){
+            swap(v, ++last, i);
+        }
+    }
+    swap(v, left, last);
+    qsort(v, left, last-1);
+    qsort(v, last+1, right);
 }
 
 int getint(int *pn){
@@ -81,3 +123,4 @@ int getint(int *pn){
         ungetch(c);
     return c;
 }
+
