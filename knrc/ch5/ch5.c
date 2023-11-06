@@ -1,18 +1,28 @@
 #include <ctype.h>
 #include <stdio.h>
+#include <string.h>
 
 #define BUFSIZE 100
 #define SIZE 10
+#define MAXLINES 5000
+#define MAXLEN 1000 /* max length of any input line */ 
+#define ALLOCSIZE 10000 /* size of available space */ 
 
 int getch(void);
 void ungetch(int);
-// goto pg 101(87) to add qsort version
 void swap(int v[], int i, int j);
 int getint(int *pn);
 void qsort(int v[], int left, int right);
+void strcpyp(char *s, char *t);
+void strcpya(char *s, char *t);
 
+// Globals for getch/ungetchr
 char buf[BUFSIZE];
 int bufp = 0;
+
+static char allocbuf[ALLOCSIZE]; /* storage for alloc */ 
+static char *allocp = allocbuf; /* next free position */ 
+char *lineptr[MAXLINES]; /* pointers to text lines */ 
 
 
 int main(int argc, char *argv[]){
@@ -124,3 +134,64 @@ int getint(int *pn){
     return c;
 }
 
+/* strcpy: copy t to s; array subscript version */ 
+void strcpya(char *s, char *t){
+    int i;
+
+    i = 0;
+    while ((s[i] = t[i]) != '\0')
+        i++;
+}
+
+
+/* strcpy: copy t to s; pointer subscript version */ 
+void strcpyp(char *s, char *t){
+    while ((*s = *t) != '\0'){
+        s++;
+        t++;
+    }
+}
+
+int getline(char s[], int lim){
+    /* read a line into s, return length */ 
+    int c, i;
+
+    for (i=0; i<lim-1 && (c=getchar()) != EOF && c!= '\n'; ++i){
+        s[i] = c;
+    }
+    if (c == '\n'){
+        s[i] = c;
+        ++i;
+    }
+    s[i] = '\0';
+    return i;
+}
+
+char *alloc (int n){
+    if (allocbuf + ALLOCSIZE - allocp >= n){
+        // it fits
+        allocp += n;
+        return allocp - n;
+    }
+    else {
+        return 0;
+    }
+}
+
+int readlines(char *lineptr[], int maxlines){
+    /* read input lines */ 
+    int len, nlines;
+    char *p, line[MAXLEN];
+
+    nlines = 0;
+    while ((len = getline(line, MAXLEN)) > 0){
+        if (nlines >= maxlines || (p = alloc(len)) == NULL)
+            return -1;
+        else {
+            line[len-1] = '\0'; /* delete newline */ 
+            strcpy(p, line);
+            lineptr[nlines++] = p;
+        }
+    }
+    return nlines;
+}
