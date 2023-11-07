@@ -10,11 +10,13 @@
 
 int getch(void);
 void ungetch(int);
-void swap(int v[], int i, int j);
+void swap(char *v[], int i, int j);
 int getint(int *pn);
-void qsort(int v[], int left, int right);
+void qsort(char *v[], int left, int right);
 void strcpyp(char *s, char *t);
 void strcpya(char *s, char *t);
+void writelines(char *lineptr[], int nlines);
+int readlines(char *lineptr[], int maxlines);
 
 // Globals for getch/ungetchr
 char buf[BUFSIZE];
@@ -26,11 +28,7 @@ char *lineptr[MAXLINES]; /* pointers to text lines */
 
 
 int main(int argc, char *argv[]){
-    int a, b, array[SIZE] = {0};
-    a = 123;
-    b = 456;
-    //swap(&a, &b);
-    //printf("a: %d, b: %d\n", a, b);
+    int array[SIZE] = {0};
     
     // qsort testing
     int sl[SIZE] = {9, 3, 5, 2, 8};
@@ -40,7 +38,7 @@ int main(int argc, char *argv[]){
     }
     printf("\n");
 
-    qsort(sl, 0, 3);
+    // qsort(sl, 0, 3);
 
     printf("qsort after: \n");
     for (int i = 0; i < SIZE; i++) {
@@ -55,6 +53,17 @@ int main(int argc, char *argv[]){
     
     for (int n = 0; n < SIZE; n++)
         printf("array[%d] = %d\n", n, array[n]);
+
+    // testing sort lines with read/write lines
+    int nlines;
+    if ((nlines = readlines(lineptr, MAXLINES)) >= 0){
+        qsort(lineptr, 0, nlines-1);
+        writelines(lineptr, nlines);
+        return 0;
+    } else {
+        printf("error: input too big to sort\n");
+        return 1;
+    } 
 }
 
 int getch(void){
@@ -70,15 +79,15 @@ void ungetch(int c){
         buf[bufp++] = c;
 }
 
-void swap(int v[], int i, int j){
-    int temp;
+void swap(char *v[], int i, int j){
+    char *temp;
 
     temp = v[i];
     v[i] = v[j];
     v[j] = temp;
 }
 
-void qsort(int v[], int left, int right){
+void qsort(char *v[], int left, int right){
     /* given the array a partition element is chosen
      * the remaining elements are separated into 2 subsets
      * greater than and less than the partition
@@ -94,7 +103,7 @@ void qsort(int v[], int left, int right){
     swap(v, left, (left + right)/2);
     last = left;
     for (i = left+1; i <= right; i++){
-        if (v[i] < v[left]){
+        if (strcmp(v[i], v[left]) < 0){
             swap(v, ++last, i);
         }
     }
@@ -152,7 +161,7 @@ void strcpyp(char *s, char *t){
     }
 }
 
-int getline(char s[], int lim){
+int lgetline(char s[], int lim){
     /* read a line into s, return length */ 
     int c, i;
 
@@ -184,7 +193,7 @@ int readlines(char *lineptr[], int maxlines){
     char *p, line[MAXLEN];
 
     nlines = 0;
-    while ((len = getline(line, MAXLEN)) > 0){
+    while ((len = lgetline(line, MAXLEN)) > 0){
         if (nlines >= maxlines || (p = alloc(len)) == NULL)
             return -1;
         else {
@@ -194,4 +203,11 @@ int readlines(char *lineptr[], int maxlines){
         }
     }
     return nlines;
+}
+
+void writelines(char *lineptr[], int nlines){
+    int i;
+    
+    for (i = 0; i < nlines; i++)
+        printf("%s\n", lineptr[i]);
 }
