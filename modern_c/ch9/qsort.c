@@ -6,11 +6,12 @@ void quicksort(int a[], int low, int high);
 int split(int a[], int low, int high);
 
 int main(void){
-    int a[N], i;
+    int a[N], i = 0;
 
     printf("Enter %d numbers to be sorted: ", N);
-    for (i = 0; i < N; i++)
+    for (i = 0; i < N && i != EOF; i++){
         scanf("%d", &a[i]);
+    }
 
     quicksort(a, 0, N-1);
 
@@ -23,6 +24,14 @@ int main(void){
 }
 
 void quicksort(int a[], int low, int high){
+    /*Quicksort algorithm:
+    * choose an array element e (the partitioning element)
+    * then rearrange the array so elements 0, ..., i-1 are less than or equal to e 
+    * element i contains e,
+    * and elements i+1, ..., n are greater than or equal to e
+    * Sort elements 0, ..., i-1 using quicksort recursively,
+    * Sort elements i+1, ..., n using quicksort recursively.
+    */ 
     int middle;
 
     if (low >= high)
